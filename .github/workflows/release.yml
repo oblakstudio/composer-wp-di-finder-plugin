@@ -17,8 +17,8 @@ jobs:
       - name: Publish a composer package
         uses: better-php-actions/publish-composer-package@v1
         with:
-          package_slug: "wp-hook-di"
-          package_name: "WP Hook DI"
+          package_slug: "composer-wp-di-finder-plugin"
+          package_name: "Composer WP Dependency Injection Finder Plugin"
           with_gpg: true
           gpg_key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg_passphrase: ${{ secrets.GPG_PASSPHRASE }}
