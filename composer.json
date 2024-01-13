@@ -1,0 +1,44 @@
+{
+  "name": "oblak/composer-wp-di-finder-plugin",
+  "description": "Finds all classes that have Hookable decorator and adds them to the dependency list.",
+  "type": "composer-plugin",
+  "version": "1.0.0",
+  "license": "GPL-2.0-only",
+  "authors": [
+    {
+      "name": "Sibin Grasic",
+      "email": "sibin.grasic@oblak.studio",
+      "homepage": "https://oblak.studio",
+      "role": "CTO"
+    },
+    {
+      "name": "Contributors",
+      "homepage": "https://github.com/oblakstudio/composer-autoconstructor-plugin//graphs/contributors"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/oblakstudio/composer-autoconstructor-plugin/issues",
+    "source": "https://github.com/oblakstudio/composer-autoconstructor-plugin"
+  },
+  "require": {
+    "php": ">=8.0",
+    "composer-plugin-api": "^2.0"
+  },
+  "require-dev": {
+    "composer/composer": "^2.0",
+    "squizlabs/php_codesniffer": "^3.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "Oblak\\Composer\\Plugin\\": "src"
+    }
+  },
+  "extra": {
+    "class": "\\Oblak\\Composer\\Plugin\\HookableDependencyFinderPlugin"
+  },
+  "scripts": {
+    "find-autoconstructable-classes": [
+      "Oblak\\Composer\\Plugin\\HookableDependencyFinderPlugin::run"
+    ]
+  }
+}
