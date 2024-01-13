@@ -1,3 +1,10 @@
+# 1.0.0 (2024-01-13)
+
+
+### Bug Fixes
+
+* Fixed release name ([9f87cad](https://github.com/oblakstudio/composer-wp-di-finder-plugin/commit/9f87cad9607743f3c4a6030673819821873b7b4a))
+
 ## [1.0.2](https://github.com/oblakstudio/composer-autoconstructor-plugin/compare/v1.0.1...v1.0.2) (2023-08-11)
 
 
