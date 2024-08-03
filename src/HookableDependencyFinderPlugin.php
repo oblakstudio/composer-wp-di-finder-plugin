@@ -27,8 +27,9 @@ class HookableDependencyFinderPlugin implements PluginInterface, EventSubscriber
     /**
      * Extra keys for the composer.json file.
      */
-    private const KEY_MODULE_FILE  = 'wp-di-module-file';
-    private const KEY_PACKAGE_NAME = 'wp-di-package-name';
+    private const KEY_MODULE_FILE   = 'wp-di-module-file';
+    private const KEY_PACKAGE_NAME  = 'wp-di-package-name';
+    private const KEY_PACKAGE_CLASS = 'wp-di-decorator-class';
 
     /**
      * @var Composer
@@ -152,6 +153,8 @@ class HookableDependencyFinderPlugin implements PluginInterface, EventSubscriber
             $io->write(sprintf('<info>%s</info>', self::MESSAGE_RUNNING_PLUGIN));
         }
 
+        include $this->composer->getConfig()->get('vendor-dir') . '/autoload.php';
+
         $classnames = $this->findHookableClasses(
             include $this->composer->getConfig()->get('vendor-dir') . '/composer/autoload_classmap.php',
             $this->composer->getPackage()->getAutoload()
@@ -207,9 +210,23 @@ class HookableDependencyFinderPlugin implements PluginInterface, EventSubscriber
 
     private function isClassHookable(string $classname)
     {
-        $reflector = new ReflectionClass($classname);
+        static $decorator;
 
-        return $reflector->isInstantiable() && !empty($reflector->getAttributes('Oblak\\WP\\Decorators\\Hookable'));
+        $decorator ??= $this->getDecoratorClassname();
+        try {
+            $reflector = new ReflectionClass($classname);
+
+            return $reflector->isInstantiable()
+                &&
+                !empty($reflector->getAttributes($decorator, \ReflectionAttribute::IS_INSTANCEOF));
+        } catch (\Throwable $e) {
+            $this->io->write(
+                sprintf('<warning>Class %s could not be reflected - %s</warning>', $classname, $e->getMessage()),
+                true,
+                IOInterface::VERBOSE
+            );
+            return false;
+        }
     }
 
     private function createModuleFile($classnames)
@@ -275,5 +292,17 @@ PHP,
         }
 
         return $modulePath;
+    }
+
+    private function getDecoratorClassname(): string
+    {
+        $classname = \Oblak\WP\Decorators\Hookable::class;
+        $extra     = $this->composer->getPackage()->getExtra();
+
+        if (isset($extra[self::KEY_PACKAGE_CLASS])) {
+            $classname = $extra[self::KEY_PACKAGE_CLASS];
+        }
+
+        return $classname;
     }
 }

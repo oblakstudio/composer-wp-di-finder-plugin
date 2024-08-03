@@ -1,0 +1,31 @@
+{
+  "branches": [
+    "master",
+    {
+      "name": "beta",
+      "prerelease": true
+    }
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "zip -r '/tmp/release.zip' ./src README.md"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "/tmp/release.zip",
+            "name": "wp-hook-di-collector-${nextRelease.version}.zip",
+            "label": "WP Hook DI Collector v${nextRelease.version}"
+          }
+        ]
+      }
+    ]
+  ]
+}

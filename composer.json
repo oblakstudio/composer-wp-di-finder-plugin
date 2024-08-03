@@ -2,7 +2,6 @@
   "name": "oblak/composer-wp-di-finder-plugin",
   "description": "Finds all classes that have Hookable decorator and adds them to the dependency list.",
   "type": "composer-plugin",
-  "version": "1.0.0",
   "license": "GPL-2.0-only",
   "authors": [
     {
@@ -26,7 +25,8 @@
   },
   "require-dev": {
     "composer/composer": "^2.0",
-    "squizlabs/php_codesniffer": "^3.8"
+    "squizlabs/php_codesniffer": "^3.8",
+    "oblak/wp-hook-di": "^1 || ^2"
   },
   "autoload": {
     "psr-4": {
